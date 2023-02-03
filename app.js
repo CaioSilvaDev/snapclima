@@ -21,15 +21,69 @@ citySearchButton.addEventListener('click', () => {
 })
 
 const apiKey = 'dece10af97249edc370df64f10eea680'
+
+navigator.geolocation.getCurrentPosition((position) => {
+    let lat = position.coords.latitude
+    let lon = position.coords.longitude
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pt_br&appid=${apiKey}`)
+        .then((response) => response.json())
+        .then((data) => displayWeather(data))
+
+},
+    (err) => {
+        if (err.code === 1) {
+            alert('Geolocalização desativada, autorize a localização para visualizar o clima da sua localização!')
+        }
+        else {
+            alert('Entre em contato com o desenvolvedor. Código de Erro: #12')
+        }
+    }
+)
+
 // https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=pt_br&appid=${api_key}
 function getCityWeather(cityName) {
+
+    weatherIcon.src = `/assets/loading-icon.svg`
+
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&lang=pt_br&appid=${apiKey}`)
         .then((response) => response.json())
         .then((data) => displayWeather(data))
 }
 
 function displayWeather(data) {
+    let {
+        dt,
+        name,
+        weather: [{ icon, description }],
+        main: { temp, feels_like, humidity },
+        wind: { speed },
+        sys: { sunrise, sunset },
+    } = data
 
+    currentDate.textContent = formatDate(dt);
+    cityName.textContent = name;
+    weatherIcon.src = `/assets/${icon}.svg`
+    weatherDescription.textContent = description;
+    currentTemperature.textContent = `${Math.round(temp)}˚C`;
+    windSpeed.textContent = `${Math.round(speed * 3.6)}km/h`;
+    feelsLikeTemperature.textContent = `${Math.round(feels_like)}˚C`;
+    currentHumidity.textContent = `${humidity}%`;
+    sunriseTime.textContent = formatTime(sunrise);
+    sunsetTime.textContent = formatTime(sunset);
 }
 
+
+function formatDate(epochTime) {
+    let date = new Date(epochTime * 1000)
+    let formattedDate = date.toLocaleDateString('pt-BR', { month: 'long', day: 'numeric' })
+
+    return `Hoje, ${formattedDate}`
+}
+
+function formatTime(epochTime) {
+    let date = new Date(epochTime * 1000)
+    let hours = date.getHours()
+    let minutes = date.getMinutes()
+    return `${hours}:${minutes}`
+}
 
