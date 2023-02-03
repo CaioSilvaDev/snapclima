@@ -92,6 +92,11 @@ body {
 
 }
 
+.current-temperature__description::first-letter {
+    text-transform: uppercase;
+}
+
+
 .current-temperature__description {
     color: #b6aef0;
     font-weight: 500;
