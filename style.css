@@ -80,7 +80,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-bottom: 15px;
+
 
 
 }
@@ -165,7 +166,7 @@ body {
     color: #a2a2be;
     font-size: 12px;
     font-weight: 500;
-    margin-top: 50px;
+
     width: 100%;
     display: flex;
     flex-direction: column;
