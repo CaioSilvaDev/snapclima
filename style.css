@@ -162,11 +162,11 @@ body {
     align-items: center;
 }
 
+/* copy*/
 .footer {
     color: #a2a2be;
     font-size: 12px;
     font-weight: 500;
-
     width: 100%;
     display: flex;
     flex-direction: column;
